@@ -1,0 +1,23 @@
+{
+  "name": "hs-webhook-prod",
+  "version": "1.0.0",
+  "description": "HubSpot webhook deal processing system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hubspot/api-client": "^14.0.1",
+    "bullmq": "^5.80.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "ioredis": "^5.11.1",
+    "joi": "^18.2.3",
+    "mongoose": "^9.7.4"
+  }
+}
