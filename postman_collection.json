@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "HubSpot Webhook Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health"
+      }
+    },
+    {
+      "name": "Receive Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-hubspot-signature-v3",
+            "value": "{{signature}}"
+          },
+          {
+            "key": "x-hubspot-request-timestamp",
+            "value": "{{timestamp}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"objectId\": 12345,\n    \"eventId\": 1,\n    \"subscriptionId\": 1,\n    \"portalId\": 123,\n    \"occurredAt\": 1234567890\n  }\n]"
+        },
+        "url": "{{base_url}}/webhook/hubspot"
+      }
+    },
+    {
+      "name": "Get Deal Sync Status",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/deals/12345/sync-status"
+      }
+    },
+    {
+      "name": "Recalculate Deal",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/deals/12345/recalculate"
+      }
+    },
+    {
+      "name": "List Webhook Events",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/webhook-events?status=completed&limit=10"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
