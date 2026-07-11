@@ -1,3 +1,4 @@
+const hubspotClient = require('../clients/hubspot.client');
 const dealService = require('../services/deal.service');
 const dealRepository = require('../repositories/deal.repository');
 const eventRepository = require('../repositories/event.repository');
@@ -24,7 +25,7 @@ class DealController {
   async listDeals(req, res, next) {
     try {
       const { limit } = req.query;
-      const deals = await dealRepository.listDeals(limit || 100);
+      const deals = await hubspotClient.listDeals(limit || 100);
       res.json(deals);
     } catch (error) {
       next(error);

@@ -43,6 +43,18 @@ class HubSpotClient {
     }
   }
 
+  async listDeals(limit = 100) {
+    try {
+      const response = await this.client.crm.deals.basicApi.getPage(
+        limit, undefined,
+        ['dealname', 'dealstage', 'amount', 'closedate', 'createdate']
+      );
+      return response.results || [];
+    } catch (error) {
+      this._handleError(error);
+    }
+  }
+
   async updateDeal(dealId, properties) {
     try {
       const response = await this.client.crm.deals.basicApi.update(dealId, {
