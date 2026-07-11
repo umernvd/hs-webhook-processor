@@ -30,10 +30,7 @@ class EventRepository {
   }
 
   async updateStatus(eventKey, status, errorMessage = null) {
-    const update = { status, processedAt: new Date() };
-    if (errorMessage) {
-      update.lastError = errorMessage;
-    }
+    const update = { status, processedAt: new Date(), lastError: errorMessage || '' };
     return Event.findOneAndUpdate({ eventId: eventKey }, update, { new: true }).lean();
   }
 
