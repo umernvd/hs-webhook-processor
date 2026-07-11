@@ -4,7 +4,14 @@
   "description": "HubSpot webhook deal processing system",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "worker": "node src/jobs/worker.js",
+    "setup:hubspot": "node scripts/createHubSpotProperties.js",
+    "worker:dev": "nodemon src/jobs/worker.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:integration": "RUN_INTEGRATION_TESTS=true jest"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +26,11 @@
     "ioredis": "^5.11.1",
     "joi": "^18.2.3",
     "mongoose": "^9.7.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }
