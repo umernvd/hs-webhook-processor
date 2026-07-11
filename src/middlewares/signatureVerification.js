@@ -20,9 +20,9 @@ function verifyHubSpotSignature(req, res, next) {
   const sourceString = config.hubspot.clientSecret + rawBody + timestamp;
 
   const hash = crypto
-    .createHash('sha256')
+    .createHmac('sha256', config.hubspot.clientSecret)
     .update(sourceString)
-    .digest('hex');
+    .digest('base64');
 
   if (hash !== signature) {
     return next(new AuthenticationError('Invalid signature'));
