@@ -1,6 +1,13 @@
 node_modules/
 .env
+*.log
+logs/
+tmp/
+*.tgz
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
 coverage/
 dist/
 build/
