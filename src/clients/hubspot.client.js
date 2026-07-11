@@ -23,7 +23,9 @@ class HubSpotClient {
 
   async getAssociatedContacts(dealId) {
     try {
-      const response = await this.client.crm.deals.associationsApi.getAll(dealId, 'contacts');
+      const response = await this.client.crm.associations.v4.basicApi.getPage(
+        'deals', dealId, 'contacts'
+      );
       return response.results || [];
     } catch (error) {
       this._handleError(error);
@@ -32,7 +34,9 @@ class HubSpotClient {
 
   async getAssociatedCompanies(dealId) {
     try {
-      const response = await this.client.crm.deals.associationsApi.getAll(dealId, 'companies');
+      const response = await this.client.crm.associations.v4.basicApi.getPage(
+        'deals', dealId, 'companies'
+      );
       return response.results || [];
     } catch (error) {
       this._handleError(error);
