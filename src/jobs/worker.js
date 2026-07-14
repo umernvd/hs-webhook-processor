@@ -3,10 +3,16 @@ const { connection } = require('../config/queue');
 const config = require('../config');
 const { connectDatabase, closeDatabase } = require('../config/database');
 const processDealJob = require('./dealProcessor.job');
+const processQuoteJob = require('./quoteProcessor.job');
 const logger = require('../utils/logger');
 
 connectDatabase().then(() => {
-  const worker = new Worker('deal-processing', processDealJob, {
+  const worker = new Worker('deal-processing', async (job) => {
+    if (job.name === 'process-quote') {
+      return await processQuoteJob(job);
+    }
+    return await processDealJob(job);
+  }, {
     connection,
     concurrency: config.queue.concurrency,
     limiter: {
