@@ -22,10 +22,13 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
+    "handlebars": "^4.7.9",
     "helmet": "^8.2.0",
     "ioredis": "^5.11.1",
     "joi": "^18.2.3",
-    "mongoose": "^9.7.4"
+    "mongoose": "^9.7.4",
+    "nodemailer": "^9.0.3",
+    "puppeteer": "^25.3.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
