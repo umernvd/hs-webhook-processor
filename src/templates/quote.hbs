@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 20px;
+    }
+    .header h1 {
+      color: #4CAF50;
+      margin: 0 0 5px 0;
+      font-size: 28px;
+    }
+    .header p {
+      margin: 3px 0;
+      color: #666;
+    }
+    .info {
+      margin-bottom: 25px;
+    }
+    .info p {
+      margin: 4px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #ddd;
+      font-size: 13px;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .totals {
+      text-align: right;
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 2px solid #ddd;
+    }
+    .totals div {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .totals .total {
+      font-size: 20px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>QUOTATION</h1>
+    <p>Quote #{{quoteNumber}}</p>
+    <p>Date: {{date}}</p>
+  </div>
+
+  <div class="info">
+    <p><strong>To:</strong> {{contactName}}</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each lineItems}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.quantity}}</td>
+        <td>{{../currency}} {{this.price}}</td>
+        <td>{{../currency}} {{multiply this.quantity this.price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div>Subtotal: {{currency}} {{subtotal}}</div>
+    <div>Tax (10%): {{currency}} {{tax}}</div>
+    <div class="total">Total: {{currency}} {{total}}</div>
+  </div>
+</body>
+</html>
