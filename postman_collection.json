@@ -52,6 +52,20 @@
         "method": "GET",
         "url": "{{base_url}}/webhook-events?status=completed&limit=10"
       }
+    },
+    {
+      "name": "Regenerate Quote",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/quotes/12345/regenerate"
+      }
+    },
+    {
+      "name": "Get Quote Status",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/quotes/12345/status"
+      }
     }
   ],
   "variable": [
