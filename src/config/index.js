@@ -12,6 +12,13 @@ const envSchema = Joi.object({
   HUBSPOT_APP_ID: Joi.string().allow('').optional(),
   QUEUE_CONCURRENCY: Joi.number().default(5),
   QUEUE_MAX_RETRIES: Joi.number().default(3),
+  SMTP_HOST: Joi.string().allow('').optional(),
+  SMTP_PORT: Joi.number().default(587),
+  SMTP_USER: Joi.string().allow('').optional(),
+  SMTP_PASS: Joi.string().allow('').optional(),
+  SMTP_FROM: Joi.string().allow('').optional(),
+  PDF_STORAGE_PATH: Joi.string().default('./storage/quotes'),
+  WORKFLOW_SECRET: Joi.string().allow('').optional(),
 }).unknown();
 
 const { error, value: env } = envSchema.validate(process.env);
@@ -40,6 +47,22 @@ const config = {
   queue: {
     concurrency: env.QUEUE_CONCURRENCY,
     maxRetries: env.QUEUE_MAX_RETRIES,
+  },
+
+  email: {
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    user: env.SMTP_USER,
+    pass: env.SMTP_PASS,
+    from: env.SMTP_FROM,
+  },
+
+  storage: {
+    quotesPath: env.PDF_STORAGE_PATH,
+  },
+
+  workflow: {
+    secret: env.WORKFLOW_SECRET,
   },
 };
 
