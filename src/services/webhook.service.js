@@ -7,12 +7,20 @@ class WebhookService {
     const results = [];
 
     for (const event of events) {
+      const objectType = this._getObjectType(event);
+      const objectId = String(event.objectId);
+
+      if (objectType === 'quote') {
+        await dealQueue.add('process-quote', { quoteId: objectId });
+        results.push({ status: 'queued', objectType: 'quote' });
+        continue;
+      }
+
       const eventKey = `${event.portalId}_${event.subscriptionId}_${event.eventId}`;
-      const dealId = String(event.objectId);
 
       const savedEvent = await eventRepository.create({
         eventKey,
-        dealId,
+        dealId: objectId,
         eventType: 'deal.propertyChange',
         payload: event,
       });
@@ -24,7 +32,7 @@ class WebhookService {
       }
 
       await dealQueue.add('process-deal', {
-        dealId,
+        dealId: objectId,
         eventKey,
       });
 
@@ -32,6 +40,18 @@ class WebhookService {
     }
 
     return results;
+  }
+
+  _getObjectType(event) {
+    if (event.objectType) {
+      return event.objectType.toLowerCase();
+    }
+
+    if (event.subscriptionType && event.subscriptionType.includes('quote')) {
+      return 'quote';
+    }
+
+    return 'deal';
   }
 }
 
