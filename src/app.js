@@ -8,6 +8,8 @@ const app = express();
 
 app.use(helmet());
 
+app.set('trust proxy', 1);
+
 app.use(express.json({
   verify: (req, _res, buf) => {
     req.rawBody = buf.toString('utf8');
