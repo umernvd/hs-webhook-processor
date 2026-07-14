@@ -66,6 +66,70 @@ class HubSpotClient {
     }
   }
 
+  async getQuote(quoteId) {
+    try {
+      const response = await this.client.crm.quotes.basicApi.getById(
+        quoteId,
+        ['hs_title', 'hs_expiration_date', 'amount', 'hs_currency']
+      );
+      return response;
+    } catch (error) {
+      this._handleError(error);
+    }
+  }
+
+  async getQuoteAssociations(quoteId) {
+    try {
+      const [deals, contacts] = await Promise.all([
+        this.client.crm.associations.v4.basicApi.getPage('quotes', quoteId, 'deals'),
+        this.client.crm.associations.v4.basicApi.getPage('quotes', quoteId, 'contacts'),
+      ]);
+      return {
+        deals: deals.results || [],
+        contacts: contacts.results || [],
+      };
+    } catch (error) {
+      this._handleError(error);
+    }
+  }
+
+  async getContact(contactId) {
+    try {
+      const response = await this.client.crm.contacts.basicApi.getById(
+        contactId,
+        ['email', 'firstname', 'lastname', 'company']
+      );
+      return response;
+    } catch (error) {
+      this._handleError(error);
+    }
+  }
+
+  async getQuoteLineItems(quoteId) {
+    try {
+      const response = await this.client.crm.associations.v4.basicApi.getPage(
+        'quotes', quoteId, 'line_items'
+      );
+
+      if (!response.results || response.results.length === 0) {
+        return [];
+      }
+
+      const lineItemIds = response.results.map(r => r.toObjectId);
+      const lineItems = await Promise.all(
+        lineItemIds.map(id =>
+          this.client.crm.lineItems.basicApi.getById(id, [
+            'name', 'quantity', 'price', 'amount'
+          ])
+        )
+      );
+
+      return lineItems;
+    } catch (error) {
+      this._handleError(error);
+    }
+  }
+
   _handleError(error) {
     const statusCode = error.response?.statusCode || error.statusCode;
 
